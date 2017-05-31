@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Into Console V2</title>
+		<title>Console V2</title>
 
 		<meta name="description" content="Introducing Console V2">
 		<meta name="author" content="David Caudeli">
@@ -39,32 +39,299 @@
 			<div class="slides">
 				<section>
 					<h1>Console V2</h1>
-					<h3>The Angular Framework</h3>
+					<h4>Présentation technique des nouveautés apportées par le chantier</h4>
 				</section>
 
 				<section>
-					<h2>Hello There</h2>
-					<p>
-						Bla bla bla
-					</p>
+					<h2>Sommaire</h2>
+					<ol>
+						<li>Nouvelle architecture front</li>
+						<li>Libs</li>
+						<li>Quoi de neuf avec Angular</li>
+						<li>UX Components</li>
+						<li>Dev Tools</li>
+					</ol>
+				</section>
+
+				<section>
+					<section>
+						<h2>Nouvelle architecture front</h2>
+						<img src="https://media.giphy.com/media/10UtqJNULHPfxe/giphy.gif" alt="YaY!">
+					</section>
+					<section>
+						<h2>Cool stuff!</h2>
+						<ul>
+							<li>Angular dernière version</li>
+							<li>Typescript</li>
+							<li>Découpage modulaire</li>
+							<li>Composants réutilisables : <a href="https://web-education.github.io/demo-components/" target="_blank">Demo Components</a></li>
+							<li>Compilation en avance de phase (AOT)</li>
+							<li>Hot Reload<br><img src="img/hot-reload2.gif" alt="hot reload" width="500"></li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Libs</h2>
+						<img src="img/ts.png" alt="ts" width="100" height="100">
+						<img src="img/angular.png" alt="angular" width="100" height="100">
+						<img src="img/webpack.png" alt="webpack" width="100" height="100">
+					</section>
+					<section style="font-size: 24px">
+						<h2>Libs principales</h2>
+						<table>
+							<thead>
+								<tr><th>Lib</th><th>Version</th></tr>
+							</thead>
+							<tbody>
+								<tr><td>Angular</td>			<td>4.1.0</td></tr>
+								<tr><td>Typescript</td>			<td>2.2.1</td></tr>
+								<tr><td>Axios</td>				<td>0.15.3</td></tr>
+								<tr><td>Rxjs</td>				<td>5.4.0</td></tr>
+								<tr><td>Zone.js</td>			<td>0.8.10</td></tr>
+								<tr><td>Infra-components</td>	<td>1.0.1</td></tr>
+								<tr><td>Entcore-toolkit</td>	<td>1.0.0</td></tr>
+								<tr><td>Noty</td>				<td>2.4.1</td></tr>
+								<tr><td>Sijil</td>				<td>1.0.0</td></tr>
+								<tr><td>Webpack</td>			<td>2.2.1</td></tr>
+								<tr><td>Gulp</td>				<td>3.9.1</td></tr>
+							</tbody>
+						</table>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Quoi de neuf avec Angular</h2>
+					</section>
+
+					<section>
+						<h2>Modules</h2>
+
+						<ul>
+							<li>Séparation des fonctionnalités en module Angular : facilite le partage du travail</li>
+							<li>Un module peut être importé dans un autre module</li>
+							<li>Un module regroupe un ensemble de composants Angular</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Exemple de module</h2>
+
+						<pre style="font-size: 16px;"><code class="hljs" data-trim>
+							@NgModule({
+							    imports: [
+							        CommonModule,
+							        FormsModule,
+							        InfraComponentsModule
+							    ],
+							    declarations: [
+							        FormField,
+							        FormErrors,
+							        AnchorDirective,
+							        Datepicker
+							    ],
+							    exports: [
+							        FormField,
+							        FormErrors,
+							        AnchorDirective,
+							        Datepicker
+							    ]
+							})
+							export class UxModule{}
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Composants</h2>
+
+						<ul style="font-size: 32px;">
+							<li>Controlleur + Vue</li>
+							<li>Peut être réutilisé : permet le développement de librairies de composants, cf. <a href="https://web-education.github.io/demo-components/" target="_blank">Demo Components</a></li>
+							<li>Une appli est un arbre de composants :<br><img src="img/cd-tree0.svg" alt="Arbre de composants" width="150"></li>
+							<li>Interaction entre composants :
+								<ul>
+									<li>Input : permet de passer des valeurs en entrée du composant</li>
+									<li>Output : permet d'émettre des évènements à l'extérieur du composant</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Exemple de composant</h2>
+
+						<pre style="font-size: 12px;"><code class="hljs" data-trim>
+							@Component({
+							    selector: 'list-component',
+							    template: `
+								<div class="list-wrapper">
+									<ul>
+										<li *ngFor="let item of model"
+										(click)="onSelect.emit(item)"
+											[class.selected]="isSelected(item)"
+											[class.disabled]="isDisabled(item)"
+											[ngClass]="ngClass(item)">
+											{{ display(item) }}
+										</li>
+									</ul>
+								</div>
+								`,
+							    styles: [`
+							        ul {
+							            margin: 0;
+							            padding: 0px;
+							            font-size: 0.9em;
+							        }
+							    `]
+							})
+							export class ListComponent implements AfterViewInit {
+							    constructor(private cdRef: ChangeDetectorRef){}
+
+							    @Input() model = []
+							    @Input() isSelected = () => false
+							    @Input() isDisabled = () => false
+							    @Input() ngClass = () => ({})
+							    @Input() display = (item) => { return item }
+
+							    @Output("onSelect") onSelect: EventEmitter<{}> = new EventEmitter()
+
+							}
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Router Angular</h2>
+					</section>
+
+					<section>
+						<h4>Module Lazy loading</h4>
+
+						<p>Le router permet de charger un module à la volée par rapport à une URL</p>
+						<pre style="font-size: 16px;"><code class="hljs" data-trim>
+							{ path: 'users', loadChildren: './modules/users/users.module#UsersModule' }
+						</code></pre>
+					</section>
+
+					<section>
+						<h4>Resolver</h4>
+
+						<p>Associé à une route, le Resolver permet de récupérer des données avant l'initialisation du composant associé à la route</p>
+						<pre style="font-size: 16px;"><code class="hljs" data-trim>
+							export let routes : Routes = [{
+								path: 'admin',
+								resolve: { session: SessionResolve, structures : StructuresResolve }
+							}]
+						</code></pre>
+						<pre style="font-size: 16px;"><code class="hljs" data-trim>
+							export class StructuresResolve implements Resolve {
+							    resolve(): Promise {
+							        return globalStore.structures.sync()
+							    }
+							}
+						</code></pre>
+					</section>
+
+					<section>
+						<h4>Schéma du routing de la console v2</h4>
+
+						<img src="img/AdminConsole-DataFlow.png" alt="Routing Consolev2" height="800">
+					</section>
+
+					<section>
+						<h2>Detection de changement</h2>
+					</section>
+
+					<section>
+						<h4>Comportement</h4>
+
+						<ul>
+							<li>Zone.js: capte le début et fin d'activités asynchrones et lance la détection de changement</li>
+							<li>Détection de changement unidirectionnelle du haut vers le bas<br><img src="img/cd-tree.svg" alt="Tree Change Detector" width="500" height="250"></li>
+							<li>Détection de changement stable après une seule passe</li>
+						</ul>
+					</section>
+
+					<section>
+						<h4>Limiter la détection de changement</h4>
+
+						<ul>
+							<li><code>ChangeDetectionStrategy.OnPush</code> : détection de changement uniquement si un Input du composant est modifié (référence)</li>
+							<li>Possibilité de marquer le composant manuellement <code>changeDetectorRef.markForCheck()</code> </li>
+						</ul>
+						<p></p>
+					</section>
+
+					<section>
+						<h2>Rxjs</h2>
+
+						<ul>
+							<li>Utilisation de l'api rxjs pour l'observation d'objets</li>
+							<li>Utilisé notamment pour observer :
+								<ul>
+									<li>les changements de l'objet URL du router</li>
+									<li>les changements des objets Store (un Store par module)</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Dev Tools</h2>
+					</section>
+
+					<section>
+						<h4>Code editor</h4>
+						<ul>
+							<li>Typescript support :</li>
+							<ul>
+								<li>Autocomplete</li>
+								<li>Live error analysis</li>
+								<li>Type information on hover</li>
+								<li>Goto Declaration</li>
+								<li>Rename refactoring</li>
+							</ul>
+						</ul>
+					</section>
+
+					<section>
+						<h4>Webpack Hot Reload</h4>
+					</section>
+
+					<section>
+						<h4>Debug</h4>
+
+						<p>Browser debug: ng.probe</p>
+						<p>Source map: breakpoint</p>
+					</section>
 				</section>
 			</div>
-
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
 
 		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
+			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
 				]
 			});
 		</script>
