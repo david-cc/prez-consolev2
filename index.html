@@ -14,7 +14,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/league.css">
+		<!-- <link rel="stylesheet" href="css/theme/black.css"> -->
+		<!-- <link rel="stylesheet" href="css/theme/moon.css"> -->
+		<!-- <link rel="stylesheet" href="css/theme/beige.css"> -->
+		<!-- <link rel="stylesheet" href="css/theme/solarized.css"> -->
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -64,8 +68,9 @@
 							<li>Typescript</li>
 							<li>Découpage modulaire</li>
 							<li>Composants réutilisables : <a href="https://web-education.github.io/demo-components/" target="_blank">Demo Components</a></li>
+							<li>Une appli pilote : <a href="https://preprod-icdd.opendigitaleducation.com/admin" target="_blank">Console v2</a></li>
 							<li>Compilation en avance de phase (AOT)</li>
-							<li>Hot Reload<br><img src="img/hot-reload2.gif" alt="hot reload" width="500"></li>
+							<li>Hot Reload & Browser Debug<br><img src="img/hot-reload2.gif" alt="hot reload" width="500"></li>
 						</ul>
 					</section>
 				</section>
@@ -205,7 +210,7 @@
 					</section>
 
 					<section>
-						<h4>Module Lazy loading</h4>
+						<h3>Module Lazy loading</h3>
 
 						<p>Le router permet de charger un module à la volée par rapport à une URL</p>
 						<pre style="font-size: 16px;"><code class="hljs" data-trim>
@@ -214,7 +219,7 @@
 					</section>
 
 					<section>
-						<h4>Resolver</h4>
+						<h3>Resolver</h3>
 
 						<p>Associé à une route, le Resolver permet de récupérer des données avant l'initialisation du composant associé à la route</p>
 						<pre style="font-size: 16px;"><code class="hljs" data-trim>
@@ -233,7 +238,7 @@
 					</section>
 
 					<section>
-						<h4>Schéma du routing de la console v2</h4>
+						<h3>Schéma du routing de la console v2</h3>
 
 						<img src="img/AdminConsole-DataFlow.png" alt="Routing Consolev2" height="800">
 					</section>
@@ -243,7 +248,7 @@
 					</section>
 
 					<section>
-						<h4>Comportement</h4>
+						<h3>Comportement</h3>
 
 						<ul>
 							<li>Zone.js: capte le début et fin d'activités asynchrones et lance la détection de changement</li>
@@ -253,7 +258,7 @@
 					</section>
 
 					<section>
-						<h4>Limiter la détection de changement</h4>
+						<h3>Limiter la détection de changement</h3>
 
 						<ul>
 							<li><code>ChangeDetectionStrategy.OnPush</code> : détection de changement uniquement si un Input du composant est modifié (référence)</li>
@@ -283,13 +288,13 @@
 					</section>
 
 					<section>
-						<h4>Code editor</h4>
+						<h3>Code editor</h3>
 						<ul>
 							<li>Typescript support :</li>
 							<ul>
 								<li>Autocomplete</li>
-								<li>Live error analysis</li>
-								<li>Type information on hover</li>
+								<li>Analyse d'erreur en live</li>
+								<li>Infos sur les types au survol</li>
 								<li>Goto Declaration</li>
 								<li>Rename refactoring</li>
 							</ul>
@@ -297,14 +302,37 @@
 					</section>
 
 					<section>
-						<h4>Webpack Hot Reload</h4>
+						<h3>Hot Reload</h3>
+
+						<ul>
+							<li>Webpack dev-server : Recharge automagiquement le navigateur suite à une modification du code</li>
+							<li>Watcher Gulp : copie les ressources (css, i18n) vers le springboard suite à une modification de code</li>
+						</ul>
 					</section>
 
 					<section>
-						<h4>Debug</h4>
+						<h3>Debug Tools</h3>
 
-						<p>Browser debug: ng.probe</p>
-						<p>Source map: breakpoint</p>
+						<ul>
+							<li>Console debug: <code>ng.probe($0).componentInstance</code><br><img src="img/console-debug.png" alt="console debug"></li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Debug Tools</h3>
+
+						<ul>
+							<li>Source map: breakpoint<br><img src="img/breakpoint.png" alt="Breakpoints"></li>
+						</ul>
+					</section>
+
+					<section>
+						<h3>Exemples live</h3>
+
+						<ul>
+							<li>Hot reload</li>
+							<li>Debug tools</li>
+						</ul>
 					</section>
 				</section>
 			</div>
